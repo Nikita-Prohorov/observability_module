@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.ssh.insert_key = false
+  config.vm.provider :virtualbox do |vb|
+    vb.memory = 2048
+    vb.cpus = 2
+ 
+  end
+
+  # Server 
+  config.vm.define "LDAPServer" do |serv|
+    serv.vm.hostname = "LDAPServer"
+    serv.vm.box = "geerlingguy/centos7"
+    serv.vm.network :private_network, ip: "192.168.120.3"
+    serv.vm.synced_folder "D:/WORK/Observability/observability_module/Day1/files", "/tools"
+    serv.vm.provision "shell", inline: <<-SHELL
+    /tools/settings.sh
+    SHELL
+  end
+  # Client
+  config.vm.define "LDAPClient" do |cl|
+    cl.vm.hostname = "LDAPClient"
+    cl.vm.box = "geerlingguy/centos7"
+    cl.vm.network :private_network, ip: "192.168.120.4"
+    cl.vm.synced_folder "D:/WORK/Observability/observability_module/Day1/files", "/tools"
+    cl.vm.provision "shell", inline: <<-SHELL
+    /tools/settingsClient.sh
+    SHELL
+  end
+end
