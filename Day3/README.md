@@ -6,3 +6,7 @@ Homework Day3:
 4. setup email server - gmail
 5. test alert
 6. agent registration (automated)
+
+Homework Day3.1:
+1. Create WEB monitor (service NGINX) 
+2. Create Log monitor (service NGINX)
